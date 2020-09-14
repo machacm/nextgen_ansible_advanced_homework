@@ -39,8 +39,6 @@
   tags:
   - osp_servers
 
- with_dict: "{{osp_servers}}"
-
 - name: Fetch servers data
   os_server_facts:
     cloud: "{{ target_cloud }}"
