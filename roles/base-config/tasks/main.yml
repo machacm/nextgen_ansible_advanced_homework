@@ -11,12 +11,12 @@
     - base_config
 
 - name: Remove internal
-  command: rm /etc/yum.repos.d/internal.*
+  command: rm /etc/yum.repos.d/internal.* || true
   tags:
     - base_config
 
 - name: Remove epel    
-  command: rm /etc/yum.repos.d/epel*
+  command: rm /etc/yum.repos.d/epel* || true
   tags:
     - base_config
 
