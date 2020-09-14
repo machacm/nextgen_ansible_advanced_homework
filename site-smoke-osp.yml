@@ -3,7 +3,7 @@
   tasks:
   - name: OpenStack servers
 # Fetch the data about servers
-    os_server_info:
+    os_server_facts:
      cloud: openstack
      server: 'frontend'
     register: openstack_data
