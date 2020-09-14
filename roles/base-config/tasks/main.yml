@@ -12,7 +12,6 @@
 
 - name: Remove internal
   command: rm /etc/yum.repos.d/internal.*
-  when: int_stat.stat.exists
   tags:
     - base_config
 
