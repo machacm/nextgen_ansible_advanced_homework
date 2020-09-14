@@ -10,13 +10,27 @@
   tags:
     - base_config
 
+- name: Stat internal
+  stat: path=/etc/yum.repos.d/internal.repo
+  register: int_exists
+  tags:
+    - base_config
+
+- name: Stat epel
+  stat: path=/etc/yum.repos.d/epel*
+  register: epel_exists
+  tags:
+    - base_config
+
 - name: Remove internal
-  command: rm /etc/yum.repos.d/internal.* || true
+  command: rm /etc/yum.repos.d/internal.*
+  when: int_exists.stat.exists
   tags:
     - base_config
 
 - name: Remove epel    
-  command: rm /etc/yum.repos.d/epel* || true
+  command: rm /etc/yum.repos.d/epel*
+  when: epel_exists.stat.exists
   tags:
     - base_config
 
