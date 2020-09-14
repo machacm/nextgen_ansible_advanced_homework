@@ -40,7 +40,7 @@
   - osp_servers
 
 - name: Fetch servers data
-  os_server_facts:
+  os_server_info:
     cloud: "{{ target_cloud }}"
   register: os_data
   tags:

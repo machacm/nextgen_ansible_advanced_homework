@@ -2,7 +2,7 @@
 # tasks file for roles/osp-instance-delete
   - name: Fetch Instance Info
 # Fetch the data from OS
-    os_server_facts:
+    os_server_info:
       cloud: "{{ target_cloud }}"
     register: os_data
     tags:
