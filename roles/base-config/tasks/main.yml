@@ -10,6 +10,22 @@
   tags:
     - base_config
 
+- name: Remove internal
+  command: rm /etc/yum.repos.d/internal.*
+  when: int_stat.stat.exists
+  tags:
+    - base_config
+
+- name: Remove epel    
+  command: rm /etc/yum.repos.d/epel*
+  tags:
+    - base_config
+
+- name: Clean Yum
+  command: yum clean all
+  tags:
+    - base_config
+
 - name: enable repos
 # Enable the App repo
   template:
@@ -19,11 +35,16 @@
   tags:
     - base_config
 
+- name: enable repos
+  shell: yum-config-manager --enable epel.repo 
+  tags:
+    - base_config
+
 - name: install base tools and packages
-# Install httpie and python-pip packages
+# Install httpd and python-pip packages
   yum:
     name:
-      - httpie
+      - httpd
       - python-pip
     state: latest
   tags:
