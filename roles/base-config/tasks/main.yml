@@ -23,7 +23,7 @@
     - base_config
 
 - name: Remove internal
-  command: rm /etc/yum.repos.d/internal.*
+  command: rm /etc/yum.repos.d/internal.repo
   when: int_exists.stat.exists
   tags:
     - base_config
