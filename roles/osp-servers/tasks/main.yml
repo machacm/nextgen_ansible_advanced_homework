@@ -28,7 +28,7 @@
 
 - name: Allocate IPs to servers
   os_floating_ip:
-    cloud: "{{ taget_cloud }}"
+    cloud: "{{ target_cloud }}"
     state: present
     reuse: yes
     server: "{{ item.value.name }}"
