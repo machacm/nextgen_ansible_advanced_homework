@@ -1,3 +1,24 @@
 ---
+# Install haproxy and configure it a service
+- name: Make sure {{ payload }} is installed
+  yum:
+    name: "{{ payload }}"
+    state: latest
+  tags:
+    - haproxy
 
+- name: Enable {{ payload }} service
+  service:
+    name: "{{ payload }}"
+    enabled: yes
+  tags:
+    - haproxy
 
+- name: Configure haproxy as a load balancer for the App
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+  notify: restart_haproxy
+  tags:
+    - haproxy

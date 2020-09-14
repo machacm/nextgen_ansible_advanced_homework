@@ -1,0 +1,25 @@
+- name: Make sure PSQL is installed
+  yum:
+    name: postgresql-server
+    state: latest
+  tags:
+    - postgres
+  
+- name: Initilize PSQL
+  command: postgresql-setup initdb
+  register: psql_init
+  changed_when: psql_init.rc == 0
+  failed_when: >-
+    psql_init.rc != 0 and
+    psql_init.stdout != 'Data directory is not empty!'
+  tags:
+    - postgres
+
+- name: Enable PSQL service
+  service:
+    name: postgresql
+    enabled: yes
+    state: started
+  tags:
+    - postgres
+

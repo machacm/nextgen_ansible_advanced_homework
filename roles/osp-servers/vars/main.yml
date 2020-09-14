@@ -1,5 +1,9 @@
 ---
-# vars file for osp.servers
+# vars file for osp.serverks
+target_cloud: openstack
+ssh_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBTCYfp/LvJHpyMqZBeXoX/jHz/LB4yAeRBMYLf3V/kopcIetQQHYIkgW96LB9CmQABX9heoopsDK8tj5IZgz//dPqfYapm+S4mz8jIOFvIwmUle6iM2KdBvMGqIBKiURVoTwQZZMoWzZEqmaHFrRuNrZCDUJ8B3LmNBqp3UQtnYUuG2Vtg/q94Wqlv7nGiBJ/bT0HhPjrsFGXJs29F354rK3Xp9KeKO9RB2PYNgIJ22KFNOZ3IV67I5bd2uJQXHEuQYqAenHh/cIt1GicOVGHKr9RQOngz4093/tuVfiwhIyKZVWu4Xm3G8x6v9nyg4ifi5XSBNvXBCuXSdivv+yd"
+internal_repo_url: "http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo"
+internal_repo_path: "/etc/yum.repos.d/internal.repo"
 osp_servers:
   frontend:
     name: frontend
@@ -8,6 +12,8 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m1.medium
     security_group: frontend
+    nics: int_network
+    floating_ip: ext_network
     meta:
       - { group: frontends, deployment_name: QA}
   app1:
@@ -17,6 +23,8 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m1.medium
     security_group: apps
+    nics: int_network
+    floating_ip: ext_network
     meta:
       - { group: apps, deployment_name: QA}
   app2:
@@ -26,6 +34,8 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m1.medium
     security_group: apps
+    nics: int_network
+    floating_ip: ext_network
     meta:
       - { group: apps, deployment_name: QA}
   db:
@@ -35,5 +45,7 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m1.medium
     security_group: db
+    nics: int_network
+    floating_ip: ext_network
     meta:
       - { group: appdbs, deployment_name: QA}

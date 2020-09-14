@@ -1,2 +1,33 @@
 ---
+# Install Tomcat, create webroot dir and start the service
+- name: Make sure {{ http_app }} is installed
+  yum:
+    name: "{{ web_app }}"
+    state: latest
+  tags:
+    - tomcat
 
+- name: Create {{ web_app }} root dir
+  file:
+    path: "{{ tomcat_web_root }}"
+    state: directory
+  tags:
+    - tomcat
+
+- name: Copy index file to {{ http_web_root }}
+  template:
+    src: index.html.j2
+    dest: "{{ tomcat_web_root }}/index.html"
+    mode: 0644
+  notify:
+    - restart_tomcat
+  tags:
+    - tomcat
+
+- name: Enable {{ web_app }} service
+  service:
+    name: "{{ web_app }}"
+    enabled: yes
+    state: started
+  tags:
+    - tomcat

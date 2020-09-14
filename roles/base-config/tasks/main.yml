@@ -7,8 +7,24 @@
     regexp: '^Defaults\s*requiretty'
     replace: 'Defaults  !requiretty'
     backup: yes
+  tags:
+    - base_config
 
 - name: enable repos
- 
-- name: install base tools and packages
+# Enable the App repo
+  template:
+    src: repos_template.j2
+    dest: /etc/yum.repos.d/open_three-tier-app.repo
+    mode: 0644 
+  tags:
+    - base_config
 
+- name: install base tools and packages
+# Install httpie and python-pip packages
+  yum:
+    name:
+      - httpie
+      - python-pip
+    state: latest
+  tags:
+    - base_config

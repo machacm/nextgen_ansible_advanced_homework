@@ -1,3 +1,63 @@
 ---
-
 # tasks file for osp.servers
+# Comleted the role to make it work
+- name: Create properly configured instances
+  os_server:
+    cloud: "{{ target_cloud }}"
+    name: "{{ item.0.name }}"
+    key_name: "{{ item.0.key_name }}"
+    state: "{{ item.0.state }}"
+    image: "{{ item.0.image }}"
+    security_groups: "{{ item.0.security_group }}"
+    flavor: "{{ item.0.flavor }}"
+    delete_fip: yes
+    wait: no
+    nics:
+      - net-name: "{{ item.0.nics }}"
+    meta: "{{ item.1 }}"
+    userdata: |
+      #!/bin/bash
+      echo "{{ ssh_pubkey }}" >> /home/cloud-user/.ssh/authorized_keys
+      curl -o "{{ internal_repo_path}}" "{{ internal_repo_url }}"
+      chmod 0644 "{{ internal_repo_path }}"
+  with_subelements: 
+    - "{{ osp_servers }}"
+    - meta
+  tags:
+  - osp_servers
+
+- name: Allocate IPs to servers
+  os_floating_ip:
+    cloud: "{{ taget_cloud }}"
+    state: present
+    reuse: yes
+    server: "{{ item.value.name }}"
+    network: "{{ item.value.floating_ip }}"
+    wait: true
+    timeout: 200
+  with_dict: "{{ osp_servers }}"
+  tags:
+  - osp_servers
+
+ with_dict: "{{osp_servers}}"
+
+- name: Fetch servers data
+  os_server_facts:
+    cloud: "{{ target_cloud }}"
+  register: os_data
+  tags:
+  - osp_servers
+
+
+- name: Wait for the servers to come online
+  wait_for:
+    host: "{{ item.public_v4 }}"
+    port: 22
+    search_regex: OpenSSH
+    timeout: 300
+  delegate_to: "{{ inventory_hostname }}"
+  with_items: 
+    - "{{ os_data.ansible_facts.openstack_servers }}"
+  tags:
+  - osp_servers
+
