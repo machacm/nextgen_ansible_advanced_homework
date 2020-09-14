@@ -34,11 +34,6 @@
   tags:
     - base_config
 
-- name: Clean Yum
-  command: yum clean all
-  tags:
-    - base_config
-
 - name: enable repos
 # Enable the App repo
   template:
@@ -50,6 +45,11 @@
 
 - name: enable repos
   shell: yum-config-manager --enable epel.repo 
+  tags:
+    - base_config
+
+- name: Clean Yum
+  command: yum clean all
   tags:
     - base_config
 
