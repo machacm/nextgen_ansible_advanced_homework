@@ -14,7 +14,7 @@
   tags:
     - tomcat
 
-- name: Copy index file to {{ http_web_root }}
+- name: Copy index file to {{ tomcat_web_root }}
   template:
     src: index.html.j2
     dest: "{{ tomcat_web_root }}/index.html"
