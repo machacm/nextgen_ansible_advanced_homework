@@ -1,16 +1,7 @@
 - hosts: tag_AnsibleGroup_bastions
-  gather_facts: no
+  gather_facts: yes
   become: true
   tasks:
-# It seems AWS servers are not online during the execution of
-# this play. This just a dirty workaround to make the workflow OK.
-  - name: Wait for the servers to come online
-    wait_for:
-      timeout: 900
-
-  - name: Gathering facts
-    setup:
-
   - name: Install required packages 
     yum: 
      name: "{{item}}"
