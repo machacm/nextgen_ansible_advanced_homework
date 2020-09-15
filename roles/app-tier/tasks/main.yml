@@ -1,6 +1,6 @@
 ---
 # Install Tomcat, create webroot dir and start the service
-- name: Make sure {{ http_app }} is installed
+- name: Make sure {{ web_app }} is installed
   yum:
     name: "{{ web_app }}"
     state: latest
